@@ -1,0 +1,41 @@
+{% load static %}
+
+<title>{% block title %} ValorIA {% endblock %}</title>
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'lluvia.ico' %}">
+
+<link rel="stylesheet" href="{% static 'css/home2.css' %}">
+
+
+<style>
+  html, body {
+    background-color: black;
+  }
+
+    </style>
+<html>
+<body>
+  
+    <form class="custom-form"  style="text-align:center;" action="" method="post">
+        {% csrf_token %}
+        <img src="{% static 'imagenes/Imagen 1.png' %}" alt="My image" width=80%>
+
+       
+        {{ form.non_field_errors }}
+        {% for field in form %}
+          <p>
+            {{ field.errors }}
+            {{ field.label }}
+            {{ field }}
+          </p>
+        {% endfor %}
+<br>
+
+
+        <button class="button" id="capture-btn" type="submit" >Registrarse</button>   <br>
+        <h2 style=" font-size:15px; color:white ">¿Ya tienes cuenta? </h2> 
+        
+        <a href="/login" > <h2 style="text-decoration:underline; font-size:15px; color: #3cc39f;">Inicia sesión</h2></a>    
+    </form>
+
+</body> 
+</html>   

@@ -1,0 +1,542 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
+
+
+    
+
+</head>
+<body>
+    
+<style>
+      /* Global font */
+      @import url("https://fonts.googleapis.com/css?family=Unica+One");
+      @import url("https://code.highcharts.com/css/highcharts.css");
+      #container {
+          height: 400px;
+          max-width: 800px;
+          margin: 0 auto;
+      }
+
+      :root {
+          /* Chart background, point stroke for markers and columns etc */
+          --highcharts-background-color: #2a2a2b;
+
+          /* Colors for data series and points. */
+          --highcharts-color-0: #2b908f;
+          --highcharts-color-1: #90ee7e;
+          --highcharts-color-2: #f45b5b;
+          --highcharts-color-3: #7798bf;
+          --highcharts-color-4: #aaeeee;
+          --highcharts-color-5: #ff0066;
+          --highcharts-color-6: #eeaaee;
+          --highcharts-color-7: #55bf3b;
+          --highcharts-color-8: #df5353;
+          --highcharts-color-9: #7798bf;
+
+          /* Neutral colors */
+          --highcharts-neutral-color-100: #ffffff;
+          --highcharts-neutral-color-80: #e0e0e3;
+          --highcharts-neutral-color-60: #e0e0e3;
+          --highcharts-neutral-color-40: #666666;
+          --highcharts-neutral-color-20: #606063;
+          --highcharts-neutral-color-10: #707073;
+          --highcharts-neutral-color-5: #505053;
+          --highcharts-neutral-color-3: #303033;
+
+          /* Highlight colors https://jsfiddle.net/highcharts/pukradvh/ */
+          --highcharts-highlight-color-100: rgb(166, 199, 237);
+          --highcharts-highlight-color-80: rgb(134, 165, 201);
+          --highcharts-highlight-color-60: rgb(102, 131, 164);
+          --highcharts-highlight-color-20: rgb(39, 64, 91);
+          --highcharts-highlight-color-10: rgb(23, 47, 73);
+      }
+
+      .highcharts-container {
+          font-family: "Unica One", arial, helvetica, sans-serif;
+      }
+      .highcharts-axis.highcharts-color text {
+        fill:#303033;
+      }
+
+      .highcharts-background {
+        fill: #000000;
+      }
+      /* Titles */
+      .highcharts-title,
+      .highcharts-subtitle {
+          text-transform: uppercase;
+      }
+
+      .highcharts-title {
+          font-size: 1.7em;
+      }
+
+      /* Tooltip */
+      .highcharts-tooltip-box {
+        fill: #059e8a;
+      }
+      .highcharts-tooltip text {
+        fill: white;
+      }
+
+
+
+      /* Range-selector */
+      .highcharts-range-selector-buttons text {
+          fill: silver;
+      }
+
+      /* Axes */
+      .highcharts-yaxis-grid {
+          stroke-width: 1px;
+      }
+
+      .highcharts-axis-labels,
+      .highcharts-axis-title {
+          fill: #e0e0e3;
+      }
+
+      /* Navigator */
+      .highcharts-navigator .highcharts-navigator-handle {
+          fill: var(--highcharts-neutral-color-40);
+          stroke: #aaaaaa;
+      }
+
+      .highcharts-navigator .highcharts-navigator-outline {
+          stroke: #cccccc;
+      }
+
+      .highcharts-navigator .highcharts-navigator-xaxis .highcharts-grid-line {
+          stroke: var(--highcharts-neutral-color-5);
+      }
+
+      /* Buttons */
+      .highcharts-button {
+          fill: var(--highcharts-neutral-color-5);
+      }
+
+      .highcharts-button text {
+          fill: #cccccc;
+      }
+
+      .highcharts-button-hover {
+          fill: var(--highcharts-neutral-color-10);
+      }
+
+      .highcharts-button-hover text {
+          fill: var(--highcharts-neutral-color-100);
+      }
+
+      .highcharts-button-pressed {
+          fill: #000003;
+          stroke: var(--highcharts-neutral-color-100);
+      }
+
+      .highcharts-button-pressed text {
+          fill: var(--highcharts-neutral-color-100);
+      }
+
+      /* Scrollbar */
+      .highcharts-scrollbar .highcharts-scrollbar-rifles {
+          stroke: var(--highcharts-neutral-color-100);
+      }
+
+      .highcharts-scrollbar .highcharts-scrollbar-button {
+          stroke: #606063;
+          fill: #606063;
+      }
+
+      .highcharts-scrollbar .highcharts-scrollbar-arrow {
+          fill: #cccccc;
+      }
+
+      .highcharts-scrollbar .highcharts-scrollbar-thumb {
+          fill: #808083;
+          stroke: #808083;
+      }
+
+      /* Navigation */
+      .highcharts-contextbutton {
+          fill: var(--highcharts-neutral-color-5);
+      }
+
+      .highcharts-contextbutton .highcharts-button-symbol {
+          stroke: #dddddd;
+      }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+        <div style="width:100%; display:flex; margin-top:10%" role="main">
+          <div style="width:50%;" >
+            <figure>
+                <div id="Sensor1" class="container"></div>
+            </figure>
+          </div>
+          <div style="width:50%;" >
+            <figure >
+                <div id="Sensor2" class="container"></div>
+            </figure>
+          </div>  
+        </div>
+
+
+         
+    <div style="width:100%; display:flex; margin-top:10%" role="main">
+      <div style="width:50%;" >
+        <figure>
+            <div id="Sensor3" class="container"></div>
+        </figure>
+      </div>
+      <div style="width:50%;" >
+        <figure >
+            <div id="Sensor4" class="container"></div>
+        </figure>
+      </div>  
+    </div>
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+      var chartT = new Highcharts.Chart({
+        chart:{renderTo : 'Sensor1' },
+        title: { 
+          style: {
+            color: '#FFFFFF',
+            fontWeight: 'bold'
+            },
+            text: 'argenbtc' },
+        series: [{
+          showInLegend: false,
+          data: []
+        }],
+        plotOptions: {
+          line: { animation: false,
+            dataLabels: { enabled: true, color: '#FFFFFF' },
+            
+          },
+          series: { color: '#059e8a',
+         }
+        },
+        xAxis: { type: 'datetime',
+          dateTimeLabelFormats: { second: '%H:%M:%S' },
+          title: { 
+            style: {
+              color: '#FFFFFF',
+              fontWeight: 'bold'
+              },
+              text: 'Tiempo' },
+              labels: {
+                style: {
+                    color: 'withe'
+                }
+            }
+        },
+        yAxis: {
+          title: {  style: {
+            color: '#FFFFFF',
+            fontWeight: 'bold'
+            }, 
+            text: 'Precio de compra reportado por el exchange, sin sumar comisiones.' },
+            labels: {
+              style: {
+                  color: 'withe'
+              }
+          }
+        },
+        credits: { enabled: false }
+      });
+      
+          setInterval(function ( ) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+              var data = JSON.parse(this.responseText);
+              date1 = data.ask;
+              console.log (date1)
+                var x = (new Date()).getTime(),
+                    y = parseFloat(date1);
+                if(chartT.series[0].data.length > 40) {
+                  chartT.series[0].addPoint([x, y], true, true, true);
+                } else {
+                  chartT.series[0].addPoint([x, y], true, false, true);
+                }}};
+      
+            xhttp.open("GET", "https://criptoya.com/api/argenbtc/btc/ars/0.5", true);
+            xhttp.send();
+          }, 1000 ) ;
+      
+          console.log(date1)
+      
+      </script>
+
+
+      <script>
+
+        var chartT2 = new Highcharts.Chart({
+          chart:{renderTo : 'Sensor2' },
+          title: { 
+            style: {
+              color: '#FFFFFF',
+              fontWeight: 'bold'
+              },
+              text: 'buenbit' },
+          series: [{
+            showInLegend: false,
+            data: []
+          }],
+          plotOptions: {
+            line: { animation: false,
+              dataLabels: { enabled: true, color: '#FFFFFF' },
+              
+            },
+            series: { color: '#059e8a',
+           }
+          },
+          xAxis: { type: 'datetime',
+            dateTimeLabelFormats: { second: '%H:%M:%S' },
+            title: { 
+              style: {
+                color: '#FFFFFF',
+                fontWeight: 'bold'
+                },
+                text: 'Tiempo' },
+                labels: {
+                  style: {
+                      color: 'withe'
+                  }
+              }
+          },
+          yAxis: {
+            title: {  style: {
+              color: '#FFFFFF',
+              fontWeight: 'bold'
+              }, 
+              text: 'Precio de compra reportado por el exchange, sin sumar comisiones.' },
+              labels: {
+                style: {
+                    color: 'withe'
+                }
+            }
+          },
+          credits: { enabled: false }
+        });
+        
+            setInterval(function ( ) {
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data2 = JSON.parse(this.responseText);
+                date2 = data2.ask;
+                console.log (date2)
+                  var x = (new Date()).getTime(),
+                      y = parseFloat(date2);
+                  if(chartT2.series[0].data.length > 40) {
+                    chartT2.series[0].addPoint([x, y], true, true, true);
+                  } else {
+                    chartT2.series[0].addPoint([x, y], true, false, true);
+                  }}};
+        
+              xhttp.open("GET", "https://criptoya.com/api/buenbit/btc/ars/0.5", true);
+              xhttp.send();
+            }, 1000 ) ;
+        
+    </script>
+
+    
+    <script>
+
+      var chartT3 = new Highcharts.Chart({
+        chart:{renderTo : 'Sensor3' },
+        title: { 
+          style: {
+            color: '#FFFFFF',
+            fontWeight: 'bold'
+            },
+            text: 'ripio' },
+        series: [{
+          showInLegend: false,
+          data: []
+        }],
+        plotOptions: {
+          line: { animation: false,
+            dataLabels: { enabled: true, color: '#FFFFFF' },
+            
+          },
+          series: { color: '#059e8a',
+         }
+        },
+        xAxis: { type: 'datetime',
+          dateTimeLabelFormats: { second: '%H:%M:%S' },
+          title: { 
+            style: {
+              color: '#FFFFFF',
+              fontWeight: 'bold'
+              },
+              text: 'Tiempo' },
+              labels: {
+                style: {
+                    color: 'withe'
+                }
+            }
+        },
+        yAxis: {
+          title: {  style: {
+            color: '#FFFFFF',
+            fontWeight: 'bold'
+            }, 
+            text: 'Precio de compra reportado por el exchange, sin sumar comisiones.' },
+            labels: {
+              style: {
+                  color: 'withe'
+              }
+          }
+        },
+        credits: { enabled: false }
+      });
+      
+          setInterval(function ( ) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+              var data3 = JSON.parse(this.responseText);
+              date3 = data3.ask;
+              console.log (date3)
+                var x = (new Date()).getTime(),
+                    y = parseFloat(date3);
+                if(chartT3.series[0].data.length > 40) {
+                  chartT3.series[0].addPoint([x, y], true, true, true);
+                } else {
+                  chartT3.series[0].addPoint([x, y], true, false, true);
+                }}};
+      
+            xhttp.open("GET", "https://criptoya.com/api/ripio/btc/ars/0.5", true);
+            xhttp.send();
+          }, 1000 ) ;
+      
+  </script>
+
+  
+
+
+  <script>
+
+    var chartT4 = new Highcharts.Chart({
+      chart:{renderTo : 'Sensor4' },
+      title: { 
+        style: {
+          color: '#FFFFFF',
+          fontWeight: 'bold'
+          },
+          text: 'ripioexchange' },
+      series: [{
+        showInLegend: false,
+        data: []
+      }],
+      plotOptions: {
+        line: { animation: false,
+          dataLabels: { enabled: true, color: '#FFFFFF' },
+          
+        },
+        series: { color: '#059e8a',
+       }
+      },
+      xAxis: { type: 'datetime',
+        dateTimeLabelFormats: { second: '%H:%M:%S' },
+        title: { 
+          style: {
+            color: '#FFFFFF',
+            fontWeight: 'bold'
+            },
+            text: 'Tiempo' },
+            labels: {
+              style: {
+                  color: 'withe'
+              }
+          }
+      },
+      yAxis: {
+        title: {  style: {
+          color: '#FFFFFF',
+          fontWeight: 'bold'
+          }, 
+          text: 'Precio de compra reportado por el exchange, sin sumar comisiones.' },
+          labels: {
+            style: {
+                color: 'withe'
+            }
+        }
+      },
+      credits: { enabled: false }
+    });
+    
+        setInterval(function ( ) {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            var data4 = JSON.parse(this.responseText);
+            date4 = data4.ask;
+            console.log (date4)
+              var x = (new Date()).getTime(),
+                  y = parseFloat(date4);
+              if(chartT4.series[0].data.length > 40) {
+                chartT4.series[0].addPoint([x, y], true, true, true);
+              } else {
+                chartT4.series[0].addPoint([x, y], true, false, true);
+              }}};
+    
+          xhttp.open("GET", "https://criptoya.com/api/ripioexchange/btc/ars/0.5", true);
+          xhttp.send();
+        }, 1000 ) ;
+    
+</script>
+
+
+        
+
+
+
+
+
+</body>
+</html>
+{% endblock content %}
