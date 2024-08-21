@@ -1,11 +1,8 @@
-import os 
+import os
+
 from core.logging import *
-from core.settings.base import * 
+from core.settings.base import *
 from dotenv import load_dotenv
-
-
-
-
 
 load_dotenv(Path.joinpath(BASE_DIR, '.env'))
 
@@ -21,7 +18,6 @@ ALLOWED_HOSTS = [ '*' ]
 
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -33,13 +29,7 @@ DATABASES = {
     }
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    },
-}
 STATIC_ROOT = Path.joinpath(BASE_DIR, 'staticfiles')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
