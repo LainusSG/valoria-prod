@@ -31,7 +31,6 @@ LOCAL_APPS = [
 ]
 
 THIRD_APPS = [
-    "whitenoise.runserver_nostatic",
 ]
 
 
