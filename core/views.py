@@ -28,7 +28,7 @@ def login_view(request):
             form 
     else:
         form = AuthenticationForm()
-    return render(request, "logint.html", {"form" : form })
+    return render(request, "loginT.html", {"form" : form })
 
 
 
